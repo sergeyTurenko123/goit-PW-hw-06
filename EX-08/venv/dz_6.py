@@ -52,8 +52,7 @@ def prepare_data(students, groups, teachers, subjects, evaluations): #-> tuple()
         for_subjects.append((subject, choice(teachers)))
     
     for_evaluations = []
-    # 
-    for list in range(1, 21):
+    for lists in range(1, 21):
         for evaluation in evaluations:
             for_evaluations.append((choice(students), choice(subjects), randint(1, evaluation), datetime(2021, randint(1, 12), randint(1, 25)).date().strftime("%d-%m-%Y")))
 
@@ -87,5 +86,5 @@ def insert_data_to_db(students, groups, teachers, subjects, evaluations) -> None
 
 if __name__ == "__main__":
     students, groups, teachers, subjects, evaluations = prepare_data(*generate_fake_data(STUDENTS, GROUPS, TEACHERS, SUBJECTS, EVALUATIONS))
-    # insert_data_to_db(students, groups, teachers, subjects, evaluations)
-    print (evaluations)
+    insert_data_to_db(students, groups, teachers, subjects, evaluations)
+    # print (evaluations)
