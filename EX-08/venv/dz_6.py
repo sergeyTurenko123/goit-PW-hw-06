@@ -1,4 +1,4 @@
-#from datetime import datetime
+from datetime import datetime
 import faker
 from random import randint, choice
 import sqlite3
@@ -34,13 +34,14 @@ def generate_fake_data(students, groups, teachers, subjects, evaluations): #-> t
     return fake_students, fake_groups, fake_teachers, fake_subjects, fake_evaluations
 
 def prepare_data(students, groups, teachers, subjects, evaluations): #-> tuple():
-    for_groups = []
-    for group in groups:
-        for_groups.append((group, ))
-
+    
     for_students = []  
     for student in students:
         for_students.append((student, randint(1, GROUPS)))
+
+    for_groups = []
+    for group in groups:
+        for_groups.append((group, ))
 
     for_teachers = []
     for teacher in teachers:
@@ -51,11 +52,12 @@ def prepare_data(students, groups, teachers, subjects, evaluations): #-> tuple()
         for_subjects.append((subject, choice(teachers)))
     
     for_evaluations = []
+    # 
     for list in range(1, 21):
         for evaluation in evaluations:
-            for_evaluations.append((randint(1, evaluation), choice(students), choice(subjects)))
+            for_evaluations.append((choice(students), choice(subjects), randint(1, evaluation), datetime(2021, randint(1, 12), randint(1, 25)).date().strftime("%d-%m-%Y")))
 
-    return for_groups, for_students, for_teachers, for_subjects, for_evaluations
+    return for_students, for_groups, for_teachers, for_subjects, for_evaluations
 
 def insert_data_to_db(students, groups, teachers, subjects, evaluations) -> None:
     
@@ -63,13 +65,11 @@ def insert_data_to_db(students, groups, teachers, subjects, evaluations) -> None
 
         cur = con.cursor()
 
-        sql_to_groups = """INSERT INTO groups(group_number)
-                               VALUES (?)"""
-        cur.executemany(sql_to_groups, groups)
-
-        sql_to_students = """INSERT INTO students(student, student_id)
-                               VALUES (?, ?)"""
+        sql_to_students = """INSERT INTO students(student, student_id) VALUES (?, ?)"""
         cur.executemany(sql_to_students, students)
+        
+        sql_to_groups = """INSERT INTO groups(group_number) VALUES (?)"""
+        cur.executemany(sql_to_groups, groups)
 
         sql_to_teachers = """INSERT INTO teachers(teacher)
                               VALUES (?)"""
@@ -79,8 +79,7 @@ def insert_data_to_db(students, groups, teachers, subjects, evaluations) -> None
                               VALUES (?, ?)"""
         cur.executemany(sql_to_subjects, subjects)
 
-        sql_to_evaluations = """INSERT INTO evaluations(evaluation, student, subject, created_at)
-                              VALUES (?, ?, ?, ?)"""
+        sql_to_evaluations = """INSERT INTO evaluations(student, subject, evaluation, created_at) VALUES (?, ?, ?, ?)"""
         cur.executemany(sql_to_evaluations, evaluations)
 
         con.commit()
@@ -89,3 +88,4 @@ def insert_data_to_db(students, groups, teachers, subjects, evaluations) -> None
 if __name__ == "__main__":
     students, groups, teachers, subjects, evaluations = prepare_data(*generate_fake_data(STUDENTS, GROUPS, TEACHERS, SUBJECTS, EVALUATIONS))
     insert_data_to_db(students, groups, teachers, subjects, evaluations)
+    print (evaluations)

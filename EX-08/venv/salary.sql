@@ -1,9 +1,3 @@
--- Table: groups
-DROP TABLE IF EXISTS groups;
-CREATE TABLE groups (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  group_number VARCHAR(255) UNIQUE NOT NULL);
-
 -- Table: students
 DROP TABLE IF EXISTS students;
 CREATE TABLE students (
@@ -14,6 +8,12 @@ CREATE TABLE students (
       ON DELETE CASCADE
       ON UPDATE CASCADE
 );
+
+-- Table: groups
+DROP TABLE IF EXISTS groups;
+CREATE TABLE groups (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  group_number VARCHAR(255) UNIQUE NOT NULL);
 
 -- Table: teachers
 DROP TABLE IF EXISTS teachers;
@@ -40,5 +40,5 @@ CREATE TABLE evaluations (
     student VARCHAR(255) UNIQUE NOT NULL,
     subject VARCHAR(255) UNIQUE NOT NULL,
     evaluation VARCHAR(255) UNIQUE NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at VARCHAR(255) UNIQUE NOT NULL -- TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
