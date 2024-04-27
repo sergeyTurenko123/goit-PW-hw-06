@@ -87,5 +87,5 @@ def insert_data_to_db(students, groups, teachers, subjects, evaluations) -> None
 
 if __name__ == "__main__":
     students, groups, teachers, subjects, evaluations = prepare_data(*generate_fake_data(STUDENTS, GROUPS, TEACHERS, SUBJECTS, EVALUATIONS))
-    insert_data_to_db(students, groups, teachers, subjects, evaluations)
+    # insert_data_to_db(students, groups, teachers, subjects, evaluations)
     print (evaluations)
