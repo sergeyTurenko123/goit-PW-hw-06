@@ -21,5 +21,5 @@ class SELECT:
    
 
 if __name__ == "__main__":
-    p = SELECT("query_10.sql","salary.db")
+    p = SELECT("query_12.sql","salary.db")
     print(p.select())
